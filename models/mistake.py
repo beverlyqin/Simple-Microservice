@@ -58,7 +58,7 @@ class MistakeBase(BaseModel):
         }
     }
 
-class AddressCreate(AddressBase):
+class MistakeCreate(MistakeBase):
     """Creation payload; ID is generated server-side but present in the base model."""
     model_config = {
         "json_schema_extra": {
@@ -76,7 +76,7 @@ class AddressCreate(AddressBase):
         }
     }
 
-class AddressUpdate(BaseModel):
+class MistakeUpdate(BaseModel):
     """Partial update; address ID is taken from the path, not the body."""
     subject: Optional[str] = Field(
         None, description="subject name of test question",
@@ -120,7 +120,7 @@ class AddressUpdate(BaseModel):
         }
     }
 
-class AddressRead(AddressBase):
+class MistakeRead(MistakeBase):
     created_at: datetime = Field(
         default_factory=datetime.utcnow,
         description="Creation timestamp (UTC).",

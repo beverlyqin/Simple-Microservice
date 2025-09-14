@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, List, Annotated
+from typing import Optional, List, Annotated, Literal
 from uuid import UUID, uuid4
 from datetime import date, datetime
 from pydantic import BaseModel, Field, EmailStr, StringConstraints
@@ -13,7 +13,7 @@ GradeLevel = Literal["K-5", "6-8", "9-12", "Undergrad", "Graduate", "Adult", "Ot
 class PersonBase(BaseModel):
     first_name: str = Field(
         ...,
-        description="Given name."
+        description="Given name.",
         json_schema_extra={"example": "Ada"},
     )
     last_name: str = Field(
@@ -37,9 +37,9 @@ class PersonBase(BaseModel):
         json_schema_extra={"example": "9-12"},
     )
 
-    mistake: List[MistakeBase] = Field(
+    mistakes: List[MistakeBase] = Field(
         default_factory=list,
-        description="Mistakes linekd to this person (each carries a persistent Mistake ID).",
+        description="Mistakes linked to this person (each carries a persistent Mistake ID).",
         json_schema_extra={
             "example": [
                 {
@@ -64,7 +64,7 @@ class PersonBase(BaseModel):
                     "email": "Aada@exmaple.com",
                     "birth_date": "2004-12-10",
                     "grade_level": "9-12",
-                    "mistake": [
+                    "mistakes": [
                         {
                             "id":"550e8400-e29b-41d4-a716-446655440000",
                             "subject":"lsat",
@@ -91,7 +91,7 @@ class PersonCreate(PersonBase):
                     "email": "susanlee@gmail.com",
                     "birth_date": "1998-06-10",
                     "grade_level": "undergraduate",
-                    "mistake": [
+                    "mistakes": [
                         {
                             "id":"550e8400-e29b-41d4-a716-aaaaaaaaaaaa",
                             "subject":"lsat",
@@ -115,7 +115,7 @@ class PersonUpdate(BaseModel):
     birth_date: Optional[date] = Field(None, json_schema_extra={"example": "1815-12-10"})
     grade_level: Optional[str] = Field(None, json_schema_extra={"example": "+44 20 7946 0958"})
 
-    mistake: Optional[List[MistakeBase]] = Field(
+    mistakes: Optional[List[MistakeBase]] = Field(
         None, 
         description="Replace the entire set of mistakes with this list.",
         json_schema_extra={
@@ -160,7 +160,7 @@ class PersonRead(PersonBase):
                     "email": "susanlee@gmail.com",
                     "birth_date": "1998-06-10",
                     "grade_level": "undergraduate",
-                    "mistake": [
+                    "mistakes": [
                         {
                             "id":"550e8400-e29b-41d4-a716-aaaaaaaaaaaa",
                             "subject":"lsat",
